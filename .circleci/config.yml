@@ -1,11 +1,9 @@
-# This config was automatically generated from your source code
-# Stacks detected: cicd:github-actions:.github/workflows,deps:node:.,test:jest:
 version: 2.1
 orbs:
   node: circleci/node@5
 jobs:
   test-node:
-    # Install node dependencies and run tests
+    # Install node dependencies, run linter, and run tests
     executor: node/default
     environment:
       JEST_JUNIT_OUTPUT_DIR: ./test-results/
@@ -15,6 +13,9 @@ jobs:
           pkg-manager: npm
       - run:
           command: npm install jest-junit
+      - run:
+          name: Run linter
+          command: npm run lint
       - run:
           name: Run tests
           command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
